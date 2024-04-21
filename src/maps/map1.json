@@ -1,0 +1,93 @@
+{
+    "height": 5,
+    "width": 5,
+    "player": {
+        "name": "player",
+        "hp": 100,
+        "damage": 100,
+        "icon": {
+            "up": "⇈",
+            "down": "⇊",
+            "left": "⇇",
+            "right": "⇉"
+        },
+        "point": [
+            1,
+            1
+        ]
+    },
+    "enemies": [
+        {
+            "name": "enemy-1",
+            "hp": 100,
+            "damage": 20,
+            "icon": {
+                "up": "↑",
+                "down": "↓",
+                "left": "←",
+                "right": "→"
+            },
+            "point": [
+                1,
+                5
+            ]
+        },
+        {
+            "name": "enemy-2",
+            "hp": 100,
+            "damage": 20,
+            "icon": {
+                "up": "↑",
+                "down": "↓",
+                "left": "←",
+                "right": "→"
+            },
+            "point": [
+                5,
+                5
+            ]
+        }
+    ],
+    "blocks": [
+        {
+            "hp": 100,
+            "icon": "=",
+            "point": [
+                1,
+                2
+            ]
+        },
+        {
+            "hp": 100,
+            "icon": "=",
+            "point": [
+                2,
+                2
+            ]
+        },
+        {
+            "hp": 100,
+            "icon": "=",
+            "point": [
+                3,
+                2
+            ]
+        },
+        {
+            "hp": 100,
+            "icon": "=",
+            "point": [
+                4,
+                2
+            ]
+        },
+        {
+            "hp": 100,
+            "icon": "=",
+            "point": [
+                5,
+                2
+            ]
+        }
+    ]
+}

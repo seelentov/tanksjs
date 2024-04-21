@@ -1,0 +1,1 @@
+type IPoint = [number, number]
