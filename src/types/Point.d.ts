@@ -1,1 +1,2 @@
+///
 type IPoint = [number, number]

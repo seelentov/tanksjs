@@ -5,8 +5,8 @@ import Tank from "./Tank"
 class GameMap {
     private height: number
     private width: number
-    public player: ITankOptionsWithPos
-    private enemies: ITankOptionsWithPos[]
+    public player: IPlayerTankOptions
+    public enemies: ITankOptionsWithPos[]
     private blocks: IBlockOptionsWithPos[]
     public matrix: Matrix<Tank | Block>
 
@@ -25,13 +25,13 @@ class GameMap {
 
         const { point: playerPoint, ...playerOptions } = this.player
 
-        const playerTank = new Tank(playerOptions)
+        const playerTank = new Tank({ ...playerOptions, type: 'player' })
         matrix.push(...playerPoint, playerTank)
 
         this.enemies.forEach(enemy => {
             const { point: enemyPoint, ...enemyOptions } = enemy
 
-            const enemyTank = new Tank(enemyOptions)
+            const enemyTank = new Tank({ ...enemyOptions, type: 'enemy' })
 
             matrix.push(...enemyPoint, enemyTank)
         })

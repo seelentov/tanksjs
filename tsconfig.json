@@ -3,6 +3,11 @@
     "target": "es5",
     "module": "commonjs",
     "strict": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "paths": {
+      "*": [
+        "./src/types/*.d.ts"
+      ]
+    },
   }
 }

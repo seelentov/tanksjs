@@ -5,14 +5,16 @@ class Tank {
     public hp: number
     public damage: number
     readonly icon: ITankIcon
+    readonly type: 'enemy' | 'player'
 
     constructor(
-        { hp, name, damage, icon }: ITankOptions
+        { hp, name, damage, icon, type }: ITankOptions
     ) {
-        this.name = name || 'tank'
+        this.name = name
         this.hp = hp
         this.damage = damage
         this.icon = icon
+        this.type = type
     }
 
     public heal(value: number): void {

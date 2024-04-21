@@ -1,3 +1,4 @@
+///
 type IMatrixMap<T> = (T | null)[][]
 type IMatrixResponse<T> = {
     actualPos: IPoint,
