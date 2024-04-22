@@ -8,4 +8,9 @@ type IMatrixResponse<T> = {
     isMoved: boolean
 }
 
+type IMatrinOnDirections<T> = {[key: IDirection]: (T | null)[]}
+type IMatrixFirstOnDirection<T> = {data:  (T | null), point: IPoint}
+type IMatrixFirstOnDirections<T> = {[key: IDirection]: IMatrixFirstOnDirection<T>} 
+
+
 type MatrixMoveByDir = -1 | 0 | 1

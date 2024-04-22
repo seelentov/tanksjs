@@ -1,3 +1,4 @@
+///
 interface IBlockOptions {
     name?: string
     hp: number

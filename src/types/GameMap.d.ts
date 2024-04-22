@@ -1,3 +1,4 @@
+///
 type ITankOptionsWithPos = ITankOptions & {
     point: IPoint
 }
@@ -10,9 +11,15 @@ type IBlockOptionsWithPos = IBlockOptions & {
     point: IPoint
 }
 
-type ITankLittleData = {
+interface ITankLittleData {
     point: IPoint,
-    name: string
+    name: string,
+    direction: IDirection
+    icon: ITankIcon
+}
+
+type IBulletData = IBulletOptions & {
+    point: IPoint
 }
 
 interface IGameMapOptions {

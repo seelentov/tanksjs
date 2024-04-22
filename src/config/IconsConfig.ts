@@ -1,21 +1,7 @@
 
 class IconsConfig {
-
-    static player = {
-        up: '⇈',
-        down: '⇊',
-        left: '⇇',
-        right: '⇉'
-    }
-
     static bullet = '•'
-
-    static enemy = {
-        up: '↑',
-        down: '↓',
-        left: '←',
-        right: '→'
-    }
+    static empty = ' '
 }
 
 export default IconsConfig

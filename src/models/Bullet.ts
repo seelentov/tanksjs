@@ -2,10 +2,14 @@ import Config from "../config/Config"
 
 class Bullet {
     readonly icon: string
+    public damage: number
+    public direction: IDirection
     constructor(
-        public damage: number
+        {damage, direction}: IBulletOptions
     ) {
         this.icon = Config.icons.bullet
+        this.damage = damage
+        this.direction = direction
     }
 }
 

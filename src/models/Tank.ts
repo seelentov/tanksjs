@@ -26,8 +26,8 @@ class Tank {
     public takeDamage(value: number): void {
         this.hp -= value
     }
-    public shoot(): Bullet {
-        return new Bullet(this.damage)
+    public shoot(direction: IDirection): Bullet {
+        return new Bullet({damage: this.damage, direction})
     }
 }
 
