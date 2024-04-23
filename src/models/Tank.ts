@@ -6,15 +6,18 @@ class Tank {
     public damage: number
     readonly icon: ITankIcon
     readonly type: 'enemy' | 'player'
+    public direction: IDirection
 
     constructor(
-        { hp, name, damage, icon, type }: ITankOptions
+        { hp, name, damage, icon, type, direction}: ITankOptions
     ) {
         this.name = name
         this.hp = hp
         this.damage = damage
         this.icon = icon
         this.type = type
+        this.direction = direction || 'up'
+
     }
 
     public heal(value: number): void {
@@ -26,8 +29,11 @@ class Tank {
     public takeDamage(value: number): void {
         this.hp -= value
     }
-    public shoot(direction: IDirection): Bullet {
-        return new Bullet({damage: this.damage, direction})
+    public shoot(): Bullet {
+        return new Bullet({damage: this.damage, direction: this.direction})
+    }
+    public rotate(direction: IDirection): void{
+        this.direction = direction
     }
 }
 

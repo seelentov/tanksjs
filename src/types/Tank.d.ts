@@ -4,6 +4,7 @@ declare interface ITankOptions {
     damage: number,
     readonly icon: ITankIcon
     readonly type: 'enemy' | 'player'
+    direction?:IDirection
 }
 
 interface ITankIcon {

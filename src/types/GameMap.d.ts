@@ -15,7 +15,6 @@ interface ITankLittleData {
     point: IPoint,
     name: string,
     direction: IDirection
-    icon: ITankIcon
 }
 
 type IBulletData = IBulletOptions & {

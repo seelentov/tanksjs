@@ -1,0 +1,2 @@
+///
+type IGameStatus = 'pending' | 'play'

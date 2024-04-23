@@ -1,17 +1,18 @@
 import DIRECTIONS from "../consts/DIRECTIONS"
+import PointService from "../services/PointService"
 
 class Matrix<T> {
     map: IMatrixMap<T>
 
     constructor(
-        private height: number,
-        private width: number
+        public height: number,
+        public width: number
     ) {
         this.map = [[null]]
         this.clearAll()
     }
 
-    private isSlotExist(x: number, y: number): boolean {
+    isSlotExist(x: number, y: number): boolean {
         return x >= 1 && x <= this.width && y >= 1 && y <= this.height
     }
 
@@ -50,76 +51,30 @@ class Matrix<T> {
     clearAll(): void {
         this.fill(null)
     }
-    moveBy(point: IPoint, byX: MatrixMoveByDir, byY: MatrixMoveByDir): IMatrixResponse<T> {
-        const item = this.get(...point) || null
-        const wantPos: IPoint = [point[0] + byX, point[1] + byY]
-        const onWantPos = this.get(...wantPos) || null
+    moveBy(point: IPoint, direction: IDirection): boolean {
+        if (!this.isSlotExist(...point)) return false
+        const item = this.get(...point)
+        const newPos = PointService.moveTo(point, direction)
+        const newPosItem = this.get(...newPos)
 
-        if (item === null) {
-            return {
-                isMoved: false,
-                actualPos: point,
-                onActualPos: null,
-                wantPos,
-                onWantPos
-            }
-        }
+        if(newPosItem || !item) return false
 
-        if (onWantPos) {
-            return {
-                isMoved: false,
-                actualPos: point,
-                onActualPos: item,
-                wantPos,
-                onWantPos
-            }
-        }
-
-        this.push(...wantPos, item)
+        this.push(...newPos, item)
         this.clear(...point)
 
-        return {
-            isMoved: true,
-            actualPos: wantPos,
-            onActualPos: item,
-            wantPos,
-            onWantPos: item
-        }
+        return true
     }
-    moveTo(point: IPoint, wantPos: IPoint): IMatrixResponse<T> {
-        const item = this.get(...point) || null
-        const onWantPos = this.get(...wantPos) || null
+    moveTo(point: IPoint, newPos: IPoint): boolean {
+        if (!this.isSlotExist(...point)) return false
+        const item = this.get(...point)
+        const newPosItem = this.get(...newPos)
 
-        if (item === null) {
-            return {
-                isMoved: false,
-                actualPos: point,
-                onActualPos: null,
-                wantPos,
-                onWantPos
-            }
-        }
+        if(newPosItem || !item) return false
 
-        if (onWantPos) {
-            return {
-                isMoved: false,
-                actualPos: point,
-                onActualPos: item,
-                wantPos,
-                onWantPos
-            }
-        }
-
-        this.push(...wantPos, item)
+        this.push(...newPos, item)
         this.clear(...point)
 
-        return {
-            isMoved: true,
-            actualPos: wantPos,
-            onActualPos: item,
-            wantPos,
-            onWantPos: item
-        }
+        return true
     }
     getDirs(point: IPoint) {
         const up: IPoint = [point[0], point[1] - 1]
@@ -186,7 +141,7 @@ class Matrix<T> {
         }
         return result
     }
-    onDirection(point: IPoint, direction: IDirection):(T | null)[] {
+    onDirection(point: IPoint, direction: IDirection): (T | null)[] {
         if (direction === 'up' || direction === 'down') {
             const column = this.onColumn(point)
             return direction === 'up' ? column.slice(0, point[1] - 1).reverse() : column.slice(point[1],)
@@ -197,18 +152,18 @@ class Matrix<T> {
         }
     }
     onDirections(point: IPoint): IMatrinOnDirections<T> {
-        const result: any  = {}
+        const result: any = {}
         DIRECTIONS.forEach(direction => {
             result[direction] = this.onDirection(point, direction)
         })
         return result
     }
-    firstOnDirection(point: IPoint, direction: IDirection): IMatrixFirstOnDirection<T>{
+    firstOnDirection(point: IPoint, direction: IDirection): IMatrixFirstOnDirection<T> {
         const isVertical = direction === 'down' || direction === 'up'
         return this.onDirection(point, direction)
             .map((data, index) => {
-                const thisPoint: IPoint = isVertical ? [point[0], index + 1] : 
-                [index + 1, point[1]]
+                const thisPoint: IPoint = isVertical ? [point[0], index + 1] :
+                    [index + 1, point[1]]
                 return {
                     data,
                     point: thisPoint
@@ -216,12 +171,37 @@ class Matrix<T> {
             })
             .filter((item) => item.data !== null)[0]
     }
-    firstOnDirections(point: IPoint): IMatrixFirstOnDirections<T>{
-        const result: any  = {}
+    firstOnDirections(point: IPoint): IMatrixFirstOnDirections<T> {
+        const result: any = {}
         DIRECTIONS.forEach(direction => {
             result[direction] = this.firstOnDirection(point, direction)
         })
         return result
+    }
+    filter(condition: IMatrixFindCondition<T>): IMatrixFindItem<T>[] {
+        const result: IMatrixFindItem<T>[] = [];
+        this.map.forEach((line, rowIndex) => {
+            line.forEach((item, colIndex) => {
+                if (condition(item, colIndex, line)) {
+                    result.push({ data: item, point: [colIndex + 1, rowIndex + 1] });
+                }
+            });
+        });
+    
+        return result;
+    }
+    find(condition: IMatrixFindCondition<T>): IMatrixFindItem<T> | false {
+        let result: IMatrixFindItem<T> | false = false;
+        this.map.forEach((line, rowIndex) => {
+            line.forEach((item, colIndex) => {
+                if (condition(item, colIndex, line)) {
+                    result = { data: item, point: [colIndex + 1, rowIndex + 1] };
+                    return;
+                }
+            });
+        });
+    
+        return result;
     }
 }
 

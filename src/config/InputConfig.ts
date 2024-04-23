@@ -5,7 +5,7 @@ class InputConfig {
     static moveLeft = ['a']
     static moveRight = ['d']
     static shoot = ['return']
-    static restart = ['restart']
+    static restart = ['r']
 }
 
 export default InputConfig
